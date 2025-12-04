@@ -23,11 +23,11 @@ if st.button('View Products',
 if st.button('View Order History', 
              type='primary',
              use_container_width=True, 
-             icon="📜")
+             icon="📜"):
   st.switch_page('pages/02_View_Orders.py')
 
 if st.button('View Messages', 
              type='primary',
              use_container_width=True, 
-             icon="📨")
+             icon="📨"):
   st.switch_page('pages/03_Messages.py')
