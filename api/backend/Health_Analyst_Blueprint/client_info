@@ -1,0 +1,68 @@
+from flask import Blueprint, jsonify, request
+from backend.db_connection import db
+from mysql.connector import Error
+from flask import current_app
+
+
+client_info = Blueprint('client_info', __name__)
+@client_info.route("/client/<int:client_id>", methods=["GET"])
+def get_client_info(client_id):
+    try:
+        query = """
+            SELECT
+                c.client_id,
+                c.first_name,
+                c.last_name,
+                c.date_of_birth,
+                c.Goals,
+                c.fitness_level,
+                c.Age,
+                c.join_date
+            FROM Client c;
+        """
+        
+        cursor = db.get_db().cursor()
+        cursor.execute(query)
+        clients = cursor.fetchall()
+        cursor.close()
+        return jsonify(clients), 200
+    except Error as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@client_info.route("/client/<int:client_id>", methods=["PUT"])
+def update_client_info(client_id):
+    try:
+        data = request.getjson()
+
+        fields = [
+            'first_name',
+            'last_name',
+            'date_of_birth',
+            'Goals',
+            'fitness_level',
+            'Age',
+            'join_date'
+        ]
+        updates = []
+        params = []
+
+        for f in fields:
+            if f in data:
+                updates.append(f"{f} = %s")
+                params.append(date[f])
+        if not updates:
+            return jsonify({"error": "No valid fields provided."}), 400
+        params.append(client_id)
+
+        query = f"""
+            UPDATE Client
+            SET {", ".join(updates)}
+            WHERE client_id = %s
+        """
+        cursor = db.get_db().cursor()
+        cursor.execute(query, params)
+        cursor.close()
+        return jsonify({"message: Client demographic information updated"}), 200
+    except Error as e:
+        return jsonify({"error": str(e)}), 500

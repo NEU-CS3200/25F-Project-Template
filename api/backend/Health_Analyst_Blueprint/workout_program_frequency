@@ -1,0 +1,31 @@
+from flask import Blueprint, jsonify, request
+from backend.db_connection import db
+from mysql.connector import Error
+from flask import current_app
+
+
+frequency = Blueprint('frequency', __name__)
+@frequency.route("/workout_session_template/used", methods=["GET"])
+def get_program_frequency():
+    try:
+        query = """
+            SELECT
+                cwl.workout_id,
+                wst.name,
+                COUNT(*) AS used
+            FROM Client_Workout_Log cwl JOIN Workout_Session_Template wst
+            ON cwl.workout_id = wst.workout_id
+            GROUP BY cwl.workout_id, wst.name
+            ORDER BY used DESC;
+        """
+
+        current_app.logger.debug(f'Executing query: {query}')
+        cursor.execute(query)
+        count = cursor.fetchall()
+        cursor.close()
+
+        current_app.logger.info(f'Successfully retried workout program frequency')
+        return jsonify(count), 200
+    except Error as e:
+        current_app.logger.error(f'Database error in get_program_frequecy: {str(e)}')
+        return jsonify({"error": str(e)}), 500

@@ -1,0 +1,36 @@
+from flask import Blueprint, jsonify, request
+from backend.db_connection import db
+from mysql.connector import Error
+from flask import current_app
+
+
+analytics = Blueprint('analytics', __name__)
+@analytics.route("/client_specific_workout_program/<int:workout_id>/completion_rate", methods=["GET"])
+def get_program_completion_rate():
+    try:
+        query = """
+            SELECT
+                cswp.program_id,
+                cswp.name AS program_name,
+                COUNT(cwl.log_id) AS total_workouts,
+                SUM(cwl.completion_status = 'completed') AS completed_workouts,
+                ROUND(
+                    SUM(cwl.completion_status = 'completed') / COUNT(cwl.log_id),
+                    3
+                ) AS completion_rate
+            FROM Client_Specific_Workout_Program cswp JOIN Client_Workout_Log cwl
+            ON cswp.workout_id = cwl.workout_id
+            AND cswp.client_id = cwl.client_id
+            GROUP BY cswp.program_id, cswp.name
+            ORDER BY completion_rate DESC;
+        """
+        current_app.logger.debug(f'Executing query: {query}')
+        cursor.execute(query)
+        completion = cursor.fetchall()
+        cursor.close()
+
+        current_app.logger.info(f'Successfully retrieved program completion rate')
+        return jsonify(completion), 200
+    except Error as e:
+        current_app.logger.error(f'Database error in get_program_completion_rate: {str(e)}')
+        return jsonify({"error": str(e)}), 500

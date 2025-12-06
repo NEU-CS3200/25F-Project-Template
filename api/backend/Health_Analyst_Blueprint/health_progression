@@ -1,0 +1,31 @@
+from flask import Blueprint, jsonify, request
+from backend.db_connection import db
+from mysql.connector import Error
+from flask import current_app
+
+
+health_progression = Blueprint('health_progression', __name__)
+@health_progression.route("/health_metric/<int:client_id>/month", methods=["GET"])
+def get_health_progression():
+    try:
+        query = """
+            SELECT
+                client_id,
+                MONTH(hm.record_date) AS month,
+                AVG(weight_kg),
+                AVG(body_fat_percentage)
+            FROM Health_Metrics hm
+            GROUP BY client_id, MONTH(hm.record_date)
+            ORDER BY client_id, month;
+        """
+
+        current_app.logger.debug(f'Executing query: {query}')
+        cursor.execute(query)
+        progression = cursor.fetchall()
+        cursor.close()
+
+        current_app.logger.info(f'Successfully retrieved {len(progression)} health metric records')
+        return jsonify(progression), 200
+    except Error as e:
+        current_app.logger.error(f'Database error in get_health_progression: {str(e)}')
+        return jsonify({"error": str(e)}), 500
