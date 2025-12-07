@@ -7,6 +7,12 @@ from logging.handlers import RotatingFileHandler
 from backend.db_connection import db
 from backend.simple.simple_routes import simple_routes
 from backend.ngos.ngo_routes import ngos
+from backend.applications.application_routes import applications
+from backend.resumes.resume_routes import resumes
+from backend.sysadmin.sysadmin_routes import sys_admin
+from backend.hiringcoord.hiringcoord_routes import hiring_coord
+from backend.career_coach.career_coach_routes import career_coach
+
 
 def create_app():
     app = Flask(__name__)
@@ -50,7 +56,22 @@ def create_app():
     app.logger.info("create_app(): registering blueprints with Flask app object.")
     app.register_blueprint(simple_routes)
     app.register_blueprint(ngos, url_prefix="/ngo")
+    
+    #Application Blueprint
+    app.register_blueprint(applications, url_prefix="/app_tracker")
 
+    #Resume Blueprint
+    app.register_blueprint(resumes, url_prefix='/app_tracker')
+
+    #SysAdmin Blueprint
+    app.register_blueprint(sys_admin, url_prefix="/app_tracker")
+
+    #HiringCoord Blueprint
+    app.register_blueprint(hiring_coord, url_prefix="/app_tracker")
+
+    # Career Coach Blueprint
+    app.register_blueprint(career_coach, url_prefix="/app_tracker")
+    
     # Don't forget to return the app object
     return app
 
