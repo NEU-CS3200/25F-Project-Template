@@ -1,0 +1,12 @@
+{
+  "drivers": {
+    "DriverName1": {
+      "order_id_1": [
+        {"from": "driver", "message": "Message text"},
+        {"from": "admin", "message": "Reply text"}
+      ],
+      "order_id_2": []
+    },
+    "DriverName2": {}
+  }
+}
