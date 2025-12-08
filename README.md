@@ -1,6 +1,6 @@
 # Fall 2025 CS 3200 Project Template
 
-This is a template repo for Dr. Fontenot's Fall 2025 CS 3200 Course Project. 
+This is the repo for Fitflow, created by Ranya Jain, Laila Alston, Malk Abou Hadiba and Alex Quintyne, as part of Dr. Fontenot's Fall 2025 CS 3200 Course Project. 
 
 It includes most of the infrastructure setup (containers), sample databases, and example UI pages. Explore it fully and ask questions!
 

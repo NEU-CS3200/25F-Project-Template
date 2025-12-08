@@ -3,119 +3,180 @@
 # This file has function to add certain functionality to the left side bar of the app
 
 import streamlit as st
+import os
+import streamlit as st
 
+st.sidebar.image("assets/fitflowlogo.png", width=150)
 
-#### ------------------------ General ------------------------
+############################
+#      GENERAL NAV
+############################
 def HomeNav():
     st.sidebar.page_link("Home.py", label="Home", icon="🏠")
 
-
 def AboutPageNav():
-    st.sidebar.page_link("pages/30_About.py", label="About", icon="🧠")
+    st.sidebar.page_link("pages/About.py", label="About", icon="🧠")
 
 
-#### ------------------------ Examples for Role of pol_strat_advisor ------------------------
-def PolStratAdvHomeNav():
-    st.sidebar.page_link(
-        "pages/00_Pol_Strat_Home.py", label="Political Strategist Home", icon="👤"
-    )
+############################
+#   SYSTEM ADMIN NAVIGATION
+############################
+def SysAdminHomeNav():
+    st.sidebar.page_link("pages/00_Sys_Admin_home.py", label="Admin Home", icon="🖥️")
+
+def SysAdminLogsNav():
+    st.sidebar.page_link("pages/01_system_logs.py", label="System Logs", icon="📜")
+
+def SysAdminBackupNav():
+    st.sidebar.page_link("pages/02_backup_logs.py", label="Backup Logs", icon="💾")
+
+def SysAdminCreateUserNav():
+    st.sidebar.page_link("pages/03_create_user.py", label="Create User", icon="➕")
+
+def SysAdminCreateTrainerNav():
+    st.sidebar.page_link("pages/04_create_trainer.py", label="Create Trainer Profile", icon="🏋️")
+
+def SysAdminCreateClientNav():
+    st.sidebar.page_link("pages/05_create_client.py", label="Create Client Profile", icon="👤")
+
+def SysAdminUpdateExerciseNav():
+    st.sidebar.page_link("pages/06_update_exercise.py", label="Update Exercise", icon="✏️")
+
+def SysAdminDeleteExerciseNav():
+    st.sidebar.page_link("pages/07_delete_exercise.py", label="Delete Exercise", icon="🗑️")
+
+def SysAdminManagePermissionsNav():
+    st.sidebar.page_link("pages/08_manage_permissions.py", label="Manage Permissions", icon="🔐")
 
 
-def WorldBankVizNav():
-    st.sidebar.page_link(
-        "pages/01_World_Bank_Viz.py", label="World Bank Visualization", icon="🏦"
-    )
+############################
+#     HEALTH ANALYST NAV
+############################
+def HealthAnalystHomeNav():
+    st.sidebar.page_link("pages/09_Health_Analyst_home.py", label="Health Analyst Home", icon="🧬")
+
+def HealthAvgWorkoutDurationNav():
+    st.sidebar.page_link("pages/10_avg_workout_duration.py", label="Avg Workout Duration", icon="⏱️")
+
+def HealthClientInfoNav():
+    st.sidebar.page_link("pages/11_client_info.py", label="Client Info", icon="📋")
+
+def HealthRecentMetricsNav():
+    st.sidebar.page_link("pages/12_recent_health_metrics.py", label="Recent Health Metrics", icon="📊")
+
+def HealthProgressionNav():
+    st.sidebar.page_link("pages/13_health_progression.py", label="Health Progression", icon="📈")
+
+def HealthProgramCompletionNav():
+    st.sidebar.page_link("pages/14_program_completion.py", label="Program Completion", icon="🎯")
+
+def HealthWorkoutFrequencyNav():
+    st.sidebar.page_link("pages/15_workout_frequency.py", label="Workout Frequency", icon="🔁")
 
 
-def MapDemoNav():
-    st.sidebar.page_link("pages/02_Map_Demo.py", label="Map Demonstration", icon="🗺️")
+############################
+#        TRAINER NAV
+############################
+def TrainerHomeNav():
+    st.sidebar.page_link("pages/16_Trainer_home.py", label="Trainer Home", icon="🏋️")
+
+def TrainerWorkoutSpecificExerciseNav():
+    st.sidebar.page_link("pages/17_trainer_workout_specific_exercise.py",
+                         label="Workout-Specific Exercises", icon="📘")
+
+def TrainerWorkoutTemplatesNav():
+    st.sidebar.page_link("pages/18_trainer_workout_templates.py",
+                         label="Workout Templates", icon="📄")
+
+def TrainerClientProgramsNav():
+    st.sidebar.page_link("pages/19_trainer_client_programs.py",
+                         label="Client Programs", icon="📚")
+
+def TrainerClientLogsNav():
+    st.sidebar.page_link("pages/20_trainer_client_logs.py",
+                         label="Client Workout Logs", icon="📝")
 
 
-## ------------------------ Examples for Role of usaid_worker ------------------------
+############################
+#        CLIENT NAV
+############################
+def ClientHomeNav():
+    st.sidebar.page_link("pages/21_Client_home.py", label="Client Home", icon="🙋")
 
-def usaidWorkerHomeNav():
-    st.sidebar.page_link(
-      "pages/10_USAID_Worker_Home.py", label="USAID Worker Home", icon="🏠"
-    )
+def ClientDashboardNav():
+    st.sidebar.page_link("pages/22_client_dashboard.py", label="Dashboard", icon="📊")
 
-def NgoDirectoryNav():
-    st.sidebar.page_link("pages/14_NGO_Directory.py", label="NGO Directory", icon="📁")
+def ClientLogWorkoutNav():
+    st.sidebar.page_link("pages/23_client_log_workout.py", label="Log Workout", icon="✍️")
 
-def AddNgoNav():
-    st.sidebar.page_link("pages/15_Add_NGO.py", label="Add New NGO", icon="➕")
-
-def ApiTestNav():
-    st.sidebar.page_link("pages/12_API_Test.py", label="Test the API", icon="🛜")
-
-def PredictionNav():
-    st.sidebar.page_link(
-        "pages/11_Prediction.py", label="Regression Prediction", icon="📈"
-    )
-
-def ClassificationNav():
-    st.sidebar.page_link(
-        "pages/13_Classification.py", label="Classification Demo", icon="🌺"
-    )
+def ClientMyProgramNav():
+    st.sidebar.page_link("pages/24_client_my_program.py", label="My Program", icon="🎯")
 
 
-
-
-
-#### ------------------------ System Admin Role ------------------------
-def AdminPageNav():
-    st.sidebar.page_link("pages/20_Admin_Home.py", label="System Admin", icon="🖥️")
-    st.sidebar.page_link(
-        "pages/21_ML_Model_Mgmt.py", label="ML Model Management", icon="🏢"
-    )
-
-
-# --------------------------------Links Function -----------------------------------------------
+############################################
+#   MAIN SIDEBAR ROLE-BASED NAV CONTROLLER
+############################################
 def SideBarLinks(show_home=False):
-    """
-    This function handles adding links to the sidebar of the app based upon the logged-in user's role, which was put in the streamlit session_state object when logging in.
-    """
+    # Add Logo
+    st.sidebar.image("assets/fitflowlogo.png", width=150)
 
-    # add a logo to the sidebar always
-    st.sidebar.image("assets/logo.png", width=150)
-
-    # If there is no logged in user, redirect to the Home (Landing) page
+    # Ensure authentication state exists
     if "authenticated" not in st.session_state:
         st.session_state.authenticated = False
         st.switch_page("Home.py")
 
+    # Show Home if requested
     if show_home:
-        # Show the Home page link (the landing page)
         HomeNav()
 
-    # Show the other page navigators depending on the users' role.
-    if st.session_state["authenticated"]:
+    # If logged in → show role-based nav
+    if st.session_state.get("authenticated"):
 
-        # Show World Bank Link and Map Demo Link if the user is a political strategy advisor role.
-        if st.session_state["role"] == "pol_strat_advisor":
-            PolStratAdvHomeNav()
-            WorldBankVizNav()
-            MapDemoNav()
+        role = st.session_state.get("role")
 
-        # If the user role is usaid worker, show the Api Testing page
-        if st.session_state["role"] == "usaid_worker":
-            usaidWorkerHomeNav()
-            NgoDirectoryNav()
-            AddNgoNav()
-            PredictionNav()
-            ApiTestNav()
-            ClassificationNav()
-            
+        # ---------------- SYSTEM ADMIN ----------------
+        if role == "system_admin":
+            SysAdminHomeNav()
+            SysAdminLogsNav()
+            SysAdminBackupNav()
+            SysAdminCreateUserNav()
+            SysAdminCreateTrainerNav()
+            SysAdminCreateClientNav()
+            SysAdminUpdateExerciseNav()
+            SysAdminDeleteExerciseNav()
+            SysAdminManagePermissionsNav()
 
-        # If the user is an administrator, give them access to the administrator pages
-        if st.session_state["role"] == "administrator":
-            AdminPageNav()
+        # ---------------- HEALTH ANALYST ----------------
+        elif role == "health_analyst":
+            HealthAnalystHomeNav()
+            HealthAvgWorkoutDurationNav()
+            HealthClientInfoNav()
+            HealthRecentMetricsNav()
+            HealthProgressionNav()
+            HealthProgramCompletionNav()
+            HealthWorkoutFrequencyNav()
 
-    # Always show the About page at the bottom of the list of links
+        # ---------------- TRAINER ----------------
+        elif role == "trainer":
+            TrainerHomeNav()
+            TrainerWorkoutSpecificExerciseNav()
+            TrainerWorkoutTemplatesNav()
+            TrainerClientProgramsNav()
+            TrainerClientLogsNav()
+
+        # ---------------- CLIENT ----------------
+        elif role == "client":
+            ClientHomeNav()
+            ClientDashboardNav()
+            ClientLogWorkoutNav()
+            ClientMyProgramNav()
+
+    # Always show About page
     AboutPageNav()
 
-    if st.session_state["authenticated"]:
-        # Always show a logout button if there is a logged in user
+    # Logout button
+    if st.session_state.get("authenticated"):
         if st.sidebar.button("Logout"):
-            del st.session_state["role"]
-            del st.session_state["authenticated"]
+            for k in ["role", "authenticated", "first_name"]:
+                st.session_state.pop(k, None)
             st.switch_page("Home.py")

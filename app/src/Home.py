@@ -1,6 +1,5 @@
 ##################################################
-# This is the main/entry-point file for the 
-# sample application for your project
+# Main Entry File for FitFlow Streamlit App
 ##################################################
 
 # Set up basic logging infrastructure
@@ -22,58 +21,115 @@ st.set_page_config(layout = 'wide')
 # in the streamlit session_state to false. 
 st.session_state['authenticated'] = False
 
-# Use the SideBarLinks function from src/modules/nav.py to control
-# the links displayed on the left-side panel. 
-# IMPORTANT: ensure src/.streamlit/config.toml sets
-# showSidebarNavigation = false in the [client] section
+# ---------------------------------------------
+# Streamlit Page Configuration
+# ---------------------------------------------
+st.set_page_config(layout="wide", page_title="FitFlow")
+
+# ---------------------------------------------
+# Session State Initialization
+# ---------------------------------------------
+if "authenticated" not in st.session_state:
+    st.session_state["authenticated"] = False
+if "role" not in st.session_state:
+    st.session_state["role"] = None
+if "first_name" not in st.session_state:
+    st.session_state["first_name"] = None
+
+# ---------------------------------------------
+# Sidebar Navigation (home only shows Home/Logout)
+# ---------------------------------------------
 SideBarLinks(show_home=True)
 
-# ***************************************************
-#    The major content of this page
-# ***************************************************
+# ---------------------------------------------
+# HERO SECTION
+# ---------------------------------------------
+st.markdown(
+    """
+    <div style="
+        background-color: #000;
+        padding: 40px 30px;
+        border-radius: 14px;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+        margin-bottom: 30px;">
+        <h1 style="color: #FF1A1A; font-size: 3rem; margin-bottom: 10px;">
+            FitFlow
+        </h1>
+        <p style="color: white; font-size: 1.2rem;">
+            Choose a persona to experience the platform.
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
-# set the title of the page and provide a simple prompt. 
-logger.info("Loading the Home page of the app")
-st.title('CS 3200 Project Template')
-st.write('\n\n')
-# st.write('### Overview:')
-# st.write('\n')
-st.write('#### HI! As which user would you like to log in?')
+# ---------------------------------------------
+# Persona Prompt
+# ---------------------------------------------
+st.markdown(
+    "<h3 style='text-align:center; color:white;'>Select a user role to continue</h3>",
+    unsafe_allow_html=True,
+)
+st.write("")
 
-# For each of the user personas for which we are implementing
-# functionality, we put a button on the screen that the user 
-# can click to MIMIC logging in as that mock user. 
+# ---------------------------------------------
+# BUTTON GRID
+# ---------------------------------------------
+col1, col2 = st.columns(2)
+col3, col4 = st.columns(2)
 
-if st.button("Act as John, a Political Strategy Advisor", 
-            type = 'primary', 
-            use_container_width=True):
-    # when user clicks the button, they are now considered authenticated
-    st.session_state['authenticated'] = True
-    # we set the role of the current user
-    st.session_state['role'] = 'pol_strat_advisor'
-    # we add the first name of the user (so it can be displayed on 
-    # subsequent pages). 
-    st.session_state['first_name'] = 'John'
-    # finally, we ask streamlit to switch to another page, in this case, the 
-    # landing page for this particular user type
-    logger.info("Logging in as Political Strategy Advisor Persona")
-    st.switch_page('pages/00_Pol_Strat_Home.py')
+### --- SYSTEM ADMIN BUTTON ---
+with col1:
+    if st.button(
+        "🖥️  Act as System Admin",
+        type="primary",
+        use_container_width=True,
+    ):
+        st.session_state["authenticated"] = True
+        st.session_state["role"] = "system_admin"
+        st.session_state["first_name"] = "Ava"
+        logger.info("Logging in as System Admin persona")
+        st.switch_page("pages/00_Sys_Admin_home.py")
 
-if st.button('Act as Mohammad, an USAID worker', 
-            type = 'primary', 
-            use_container_width=True):
-    st.session_state['authenticated'] = True
-    st.session_state['role'] = 'usaid_worker'
-    st.session_state['first_name'] = 'Mohammad'
-    st.switch_page('pages/10_USAID_Worker_Home.py')
+### --- HEALTH ANALYST BUTTON ---
+with col2:
+    if st.button(
+        "📊  Act as Health Analyst",
+        type="primary",
+        use_container_width=True,
+    ):
+        st.session_state["authenticated"] = True
+        st.session_state["role"] = "health_analyst"
+        st.session_state["first_name"] = "Dr. Riley"
+        logger.info("Logging in as Health Analyst persona")
+        st.switch_page("pages/09_Health_Analyst_home.py")
 
-if st.button('Act as System Administrator', 
-            type = 'primary', 
-            use_container_width=True):
-    st.session_state['authenticated'] = True
-    st.session_state['role'] = 'administrator'
-    st.session_state['first_name'] = 'SysAdmin'
-    st.switch_page('pages/20_Admin_Home.py')
+### --- TRAINER BUTTON ---
+with col3:
+    if st.button(
+        "🏋️  Act as Trainer",
+        type="primary",
+        use_container_width=True,
+    ):
+        st.session_state["authenticated"] = True
+        st.session_state["role"] = "trainer"
+        st.session_state["first_name"] = "Jordan"
+        logger.info("Logging in as Trainer persona")
+        st.switch_page("pages/16_Trainer_home.py")
+
+### --- CLIENT BUTTON ---
+with col4:
+    if st.button(
+        "👤  Act as Client",
+        type="primary",
+        use_container_width=True,
+    ):
+        st.session_state["authenticated"] = True
+        st.session_state["role"] = "client"
+        st.session_state["first_name"] = "Taylor"
+        logger.info("Logging in as Client persona")
+        st.switch_page("pages/21_Client_home.py")
 
 
 
