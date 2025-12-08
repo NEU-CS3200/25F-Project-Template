@@ -1,11 +1,8 @@
-# Idea borrowed from https://github.com/fsmosca/sample-streamlit-authenticator
-
-# This file has function to add certain functionality to the left side bar of the app
-
 import streamlit as st
 
 
-#### ------------------------ General ------------------------
+# ------------------------ Navigation Functions ------------------------
+
 def HomeNav():
     st.sidebar.page_link("Home.py", label="Home", icon="🏠")
 
@@ -14,108 +11,170 @@ def AboutPageNav():
     st.sidebar.page_link("pages/30_About.py", label="About", icon="🧠")
 
 
-#### ------------------------ Examples for Role of pol_strat_advisor ------------------------
-def PolStratAdvHomeNav():
-    st.sidebar.page_link(
-        "pages/00_Pol_Strat_Home.py", label="Political Strategist Home", icon="👤"
-    )
+# System Admin
+def AdminHomeNav():
+    st.sidebar.page_link("pages/00_Admin_Home.py", label="Admin Home", icon="🏠")
 
 
-def WorldBankVizNav():
-    st.sidebar.page_link(
-        "pages/01_World_Bank_Viz.py", label="World Bank Visualization", icon="🏦"
-    )
+def ManageUsersNav():
+    st.sidebar.page_link("pages/01_Manage_Users.py", label="Manage Users", icon="👥")
 
 
-def MapDemoNav():
-    st.sidebar.page_link("pages/02_Map_Demo.py", label="Map Demonstration", icon="🗺️")
+def VerificationsNav():
+    st.sidebar.page_link("pages/02_Verifications.py", label="Verifications", icon="✅")
 
 
-## ------------------------ Examples for Role of usaid_worker ------------------------
-
-def usaidWorkerHomeNav():
-    st.sidebar.page_link(
-      "pages/10_USAID_Worker_Home.py", label="USAID Worker Home", icon="🏠"
-    )
-
-def NgoDirectoryNav():
-    st.sidebar.page_link("pages/14_NGO_Directory.py", label="NGO Directory", icon="📁")
-
-def AddNgoNav():
-    st.sidebar.page_link("pages/15_Add_NGO.py", label="Add New NGO", icon="➕")
-
-def ApiTestNav():
-    st.sidebar.page_link("pages/12_API_Test.py", label="Test the API", icon="🛜")
-
-def PredictionNav():
-    st.sidebar.page_link(
-        "pages/11_Prediction.py", label="Regression Prediction", icon="📈"
-    )
-
-def ClassificationNav():
-    st.sidebar.page_link(
-        "pages/13_Classification.py", label="Classification Demo", icon="🌺"
-    )
+def ReportsNav():
+    st.sidebar.page_link("pages/03_Reports.py", label="Platform Reports", icon="📈")
 
 
+# Player
+def PlayerHomeNav():
+    st.sidebar.page_link("pages/10_Player_Home.py", label="Player Home", icon="🏀")
 
 
-
-#### ------------------------ System Admin Role ------------------------
-def AdminPageNav():
-    st.sidebar.page_link("pages/20_Admin_Home.py", label="System Admin", icon="🖥️")
-    st.sidebar.page_link(
-        "pages/21_ML_Model_Mgmt.py", label="ML Model Management", icon="🏢"
-    )
+def PlayerStatsNav():
+    st.sidebar.page_link("pages/11_Player_Stats.py", label="My Statistics", icon="📊")
 
 
-# --------------------------------Links Function -----------------------------------------------
+def UploadVideosNav():
+    st.sidebar.page_link("pages/12_Upload_Videos.py", label="Upload Highlights", icon="🎥")
+
+
+def ViewFeedbackNav():
+    st.sidebar.page_link("pages/13_View_Feedback.py", label="Scout Feedback", icon="💬")
+
+
+# Data Analyst
+def AnalystHomeNav():
+    st.sidebar.page_link("pages/20_Analyst_Home.py", label="Analyst Home", icon="📊")
+
+
+def AnalyticsDashboardNav():
+    st.sidebar.page_link("pages/21_Analytics_Dashboard.py", label="Performance Analytics", icon="📈")
+
+
+def CustomMetricsNav():
+    st.sidebar.page_link("pages/22_Custom_Metrics.py", label="Custom Metrics", icon="🔧")
+
+
+def ExportDataNav():
+    st.sidebar.page_link("pages/23_Export_Data.py", label="Export Data", icon="📥")
+
+
+# Game Scout
+def ScoutHomeNav():
+    st.sidebar.page_link("pages/30_Scout_Home.py", label="Scout Home", icon="🔍")
+
+
+def SearchPlayersNav():
+    st.sidebar.page_link("pages/31_Search_Players.py", label="Search Players", icon="🔍")
+
+
+def LiveScoutNav():
+    st.sidebar.page_link("pages/32_Live_Scout.py", label="Live Game Scout", icon="📹")
+
+
+def ScoutScheduleNav():
+    st.sidebar.page_link("pages/33_Scout_Schedule.py", label="Scouting Schedule", icon="📅")
+
+
+# ------------------------ Main Sidebar Function ------------------------
+
 def SideBarLinks(show_home=False):
-    """
-    This function handles adding links to the sidebar of the app based upon the logged-in user's role, which was put in the streamlit session_state object when logging in.
-    """
+    # Apply custom styling
+    st.markdown("""
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap');
 
-    # add a logo to the sidebar always
+        [data-testid="stSidebar"] {
+            background-color: #000000;
+        }
+
+        .main, .stApp {
+            background-color: #1A1A1A;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 2px;
+            color: #FFFFFF;
+        }
+
+        body, p, div, span, label {
+            font-family: 'Inter', sans-serif;
+            color: #FFFFFF;
+        }
+
+        .stButton > button {
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 1.5px;
+            background-color: #FF6B35;
+            color: white;
+            border: none;
+        }
+
+        .stButton > button:hover {
+            background-color: #FF8555;
+        }
+
+        [data-testid="collapsedControl"] {
+            display: none;
+        }
+
+        button[kind="header"] {
+            display: none;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+    # Display logo
     st.sidebar.image("assets/logo.png", width=150)
 
-    # If there is no logged in user, redirect to the Home (Landing) page
+    # Check authentication
     if "authenticated" not in st.session_state:
         st.session_state.authenticated = False
         st.switch_page("Home.py")
 
+    # Show home link if requested
     if show_home:
-        # Show the Home page link (the landing page)
         HomeNav()
 
-    # Show the other page navigators depending on the users' role.
-    if st.session_state["authenticated"]:
+    # Show role-specific navigation
+    if st.session_state.get("authenticated", False):
 
-        # Show World Bank Link and Map Demo Link if the user is a political strategy advisor role.
-        if st.session_state["role"] == "pol_strat_advisor":
-            PolStratAdvHomeNav()
-            WorldBankVizNav()
-            MapDemoNav()
+        role = st.session_state.get("role", "")
 
-        # If the user role is usaid worker, show the Api Testing page
-        if st.session_state["role"] == "usaid_worker":
-            usaidWorkerHomeNav()
-            NgoDirectoryNav()
-            AddNgoNav()
-            PredictionNav()
-            ApiTestNav()
-            ClassificationNav()
-            
+        if role == "system_admin":
+            AdminHomeNav()
+            ManageUsersNav()
+            VerificationsNav()
+            ReportsNav()
 
-        # If the user is an administrator, give them access to the administrator pages
-        if st.session_state["role"] == "administrator":
-            AdminPageNav()
+        elif role == "player":
+            PlayerHomeNav()
+            PlayerStatsNav()
+            UploadVideosNav()
+            ViewFeedbackNav()
 
-    # Always show the About page at the bottom of the list of links
+        elif role == "data_analyst":
+            AnalystHomeNav()
+            AnalyticsDashboardNav()
+            CustomMetricsNav()
+            ExportDataNav()
+
+        elif role == "game_scout":
+            ScoutHomeNav()
+            SearchPlayersNav()
+            LiveScoutNav()
+            ScoutScheduleNav()
+
+    # Always show About
     AboutPageNav()
 
-    if st.session_state["authenticated"]:
-        # Always show a logout button if there is a logged in user
+    # Show logout button
+    if st.session_state.get("authenticated", False):
         if st.sidebar.button("Logout"):
-            del st.session_state["role"]
-            del st.session_state["authenticated"]
+            st.session_state.role = None
+            st.session_state.authenticated = False
             st.switch_page("Home.py")

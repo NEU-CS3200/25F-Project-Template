@@ -8,12 +8,11 @@ st.write("# About this App")
 
 st.markdown(
     """
-    This is a demo app for Data and Software in International Government and Politics Dialogue 2025 Project Course.  
+    CourtVision is a data-driven scouting platform for amateur basketball—designed for AAU programs and high school leagues. We centralize player profiles, performance metrics, and game data to help organizations identify talent and maximize team success.
 
-    The goal of this demo is to provide information on the tech stack 
-    being used as well as demo some of the features of the various platforms. 
+Traditional scouting tools are fragmented, expensive, and focus on either stats or video—never both. Many amateur players have no centralized record of their abilities. CourtVision bridges this gap by collecting structured player data, verifying stats, and delivering clear analytics accessible to players, scouts, coaches, and analysts.
 
-    Stay tuned for more information and features to come!
+Our platform offers player comparisons, trend dashboards, and integrated video-stats views—giving everyone a complete picture of the game.
     """
 )
 

@@ -1,6 +1,48 @@
 name: project-app-team-repo
-
 services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    hostname: db
+    environment:
+      MYSQL_ROOT_PASSWORD: courtvision_root_2024
+      MYSQL_DATABASE: courtvision
+      MYSQL_USER: courtvision_user
+      MYSQL_PASSWORD: courtvision_pass_2024
+    volumes:
+      - "./database-files:/docker-entrypoint-initdb.d/:ro"
+      - "mysql_data:/var/lib/mysql"
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pcourtvision_root_2024"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: ./api
+    container_name: web-api
+    hostname: web-api
+    volumes: ["./api:/apicode"]
+    environment:
+      - WATCHPACK_POLLING=true
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USER=courtvision_user
+      - DB_PASSWORD=courtvision_pass_2024
+      - DB_NAME=courtvision
+      - MYSQL_ROOT_PASSWORD=courtvision_root_2024
+      - MYSQL_DATABASE=courtvision
+      - MYSQL_USER=courtvision_user
+      - MYSQL_PASSWORD=courtvision_pass_2024
+      - SECRET_KEY=your-secret-key-here
+    ports:
+      - 4000:4000
+    depends_on:
+      db:
+        condition: service_healthy
+
   app:
     build: ./app
     container_name: web-app
@@ -10,28 +52,8 @@ services:
       - WATCHPACK_POLLING=true
     ports:
       - 8501:8501
-
-  api:
-    build: ./api
-    container_name: web-api
-    hostname: web-api
-    volumes: ["./api:/apicode"]
-    environment:
-      - WATCHPACK_POLLING=true
-    ports:
-      - 4000:4000
-
-  db:
-    env_file:
-      - ./api/.env
-    image: mysql:9
-    container_name: mysql_db
-    hostname: db
-    volumes:
-      - "./database-files:/docker-entrypoint-initdb.d/:ro"
-      - "mysql_data:/var/lib/mysql"
-    ports:
-      - 3200:3306
+    depends_on:
+      - api
 
 volumes:
   mysql_data:
