@@ -2,78 +2,180 @@
 # This is the main/entry-point file for the 
 # sample application for your project
 ##################################################
-
+##################################################
+##################################################
 # Set up basic logging infrastructure
-import logging
-logging.basicConfig(format='%(filename)s:%(lineno)s:%(levelname)s -- %(message)s', level=logging.INFO)
-logger = logging.getLogger(__name__)
+import logging, base64
 
 # import the main streamlit library as well
-# as SideBarLinks function from src/modules folder
+from datetime import datetime
+from streamlit.components.v1 import html
 import streamlit as st
 from modules.nav import SideBarLinks
 
-# streamlit supports reguarl and wide layout (how the controls
-# are organized/displayed on the screen).
-st.set_page_config(layout = 'wide')
+# ----- Logging -----
+logging.basicConfig(format='%(filename)s:%(lineno)s:%(levelname)s -- %(message)s', level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-# If a user is at this page, we assume they are not 
-# authenticated.  So we change the 'authenticated' value
-# in the streamlit session_state to false. 
+st.set_page_config(layout="wide")
+
+# Reset auth for landing
 st.session_state['authenticated'] = False
 
-# Use the SideBarLinks function from src/modules/nav.py to control
-# the links displayed on the left-side panel. 
-# IMPORTANT: ensure src/.streamlit/config.toml sets
-# showSidebarNavigation = false in the [client] section
 SideBarLinks(show_home=True)
 
-# ***************************************************
-#    The major content of this page
-# ***************************************************
+# ----- Helpers -----
+def get_base64(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
 
-# set the title of the page and provide a simple prompt. 
-logger.info("Loading the Home page of the app")
-st.title('CS 3200 Project Template')
-st.write('\n\n')
-# st.write('### Overview:')
-# st.write('\n')
-st.write('#### HI! As which user would you like to log in?')
+# Background image (JPEG)
+bg_img = get_base64("assets/homepage_background.png")
 
-# For each of the user personas for which we are implementing
-# functionality, we put a button on the screen that the user 
-# can click to MIMIC logging in as that mock user. 
+# ----- HERO SECTION -----
+st.markdown(f"""
+<style>
+@keyframes fadeIn {{
+    from {{ opacity: 0; transform: translateY(10px); }}
+    to {{ opacity: 1; transform: translateY(0); }}
+}}
 
-if st.button("Act as John, a Political Strategy Advisor", 
-            type = 'primary', 
-            use_container_width=True):
-    # when user clicks the button, they are now considered authenticated
-    st.session_state['authenticated'] = True
-    # we set the role of the current user
-    st.session_state['role'] = 'pol_strat_advisor'
-    # we add the first name of the user (so it can be displayed on 
-    # subsequent pages). 
-    st.session_state['first_name'] = 'John'
-    # finally, we ask streamlit to switch to another page, in this case, the 
-    # landing page for this particular user type
-    logger.info("Logging in as Political Strategy Advisor Persona")
-    st.switch_page('pages/00_Pol_Strat_Home.py')
+.hero {{
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+    border-radius: 18px;
+}}
 
-if st.button('Act as Mohammad, an USAID worker', 
-            type = 'primary', 
-            use_container_width=True):
-    st.session_state['authenticated'] = True
-    st.session_state['role'] = 'usaid_worker'
-    st.session_state['first_name'] = 'Mohammad'
-    st.switch_page('pages/10_USAID_Worker_Home.py')
+.hero img {{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}}
 
-if st.button('Act as System Administrator', 
-            type = 'primary', 
-            use_container_width=True):
-    st.session_state['authenticated'] = True
-    st.session_state['role'] = 'administrator'
-    st.session_state['first_name'] = 'SysAdmin'
-    st.switch_page('pages/20_Admin_Home.py')
+.hero-text {{
+    position: absolute;
+    top: 45%;
+    left: 10%;
+    color: #31333E;
+    font-size: 3.6rem;
+    font-weight: 800;
+    animation: fadeIn 0.6s ease-out forwards;
+}}
 
+.hero-sub {{
+    position: absolute;
+    top: 60%;
+    left: 10%;
+    color: #444;
+    font-size: 1.2rem;
+    max-width: 520px;
+    animation: fadeIn 0.8s ease-out forwards;
+}}
 
+.role-card {{
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    background: white;
+    transition: transform 0.2s ease;
+}}
 
+.role-card:hover {{
+    transform: scale(1.03);
+}}
+
+.section-title {{
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 2rem 0 1rem;
+}}
+</style>
+
+<div class="hero">
+    <img src="data:image/jpeg;base64,{bg_img}">
+    <div class="hero-text">Welcome to Fresh Route!</div>
+    <div class="hero-text"></div>
+    <div class="hero-sub">
+    Farm-fresh ingredients and smart delivery — powered by data.</div>
+</div>
+""", unsafe_allow_html=True)
+
+st.divider()
+
+# ----- LOGIN CARDS -----
+st.markdown("<div class='section-title'>Choose Your Role</div>", unsafe_allow_html=True)
+
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    st.markdown("<div class='role-card'> 🛒 Customer</div>", unsafe_allow_html=True)
+    if st.button("Log in as Daniel", use_container_width=True):
+        st.session_state.update({
+            "authenticated": True,
+            "role": "customer",
+            "first_name": "Daniel"
+        })
+        st.switch_page("pages/00_Customer_Home.py")
+
+with col2:
+    st.markdown("<div class='role-card'> 🌱 Farmer</div>", unsafe_allow_html=True)
+    if st.button("Log in as Maria", use_container_width=True):
+        st.session_state.update({
+            "authenticated": True,
+            "role": "farmer",
+            "first_name": "Maria"
+        })
+        st.switch_page("pages/10_Farmer_Home.py")
+
+with col3:
+    st.markdown("<div class='role-card'> 🚚 Driver</div>", unsafe_allow_html=True)
+    if st.button("Log in as Bob", use_container_width=True):
+        st.session_state.update({
+            "authenticated": True,
+            "role": "driver",
+            "first_name": "Bob",
+            "driver_id": 6  # Bob Johnson
+        })
+        st.switch_page("pages/22_Driver_Home.py")
+
+with col4:
+    st.markdown("<div class='role-card'> 🖥️ Admin</div>", unsafe_allow_html=True)
+    if st.button("Log in as Lancy", use_container_width=True):
+        st.session_state.update({
+            "authenticated": True,
+            "role": "administrator",
+            "first_name": "Lancy"
+        })
+        st.switch_page("pages/25_Admin_Home.py")
+
+st.divider()
+
+# ----- FEATURE STRIP -----
+feature_cols = st.columns(3)
+
+features = [
+    ("🌾", "Farm-Fresh Sourcing", "Direct from sustainable local farms."),
+    ("📦", "Smart Delivery", "Optimized routes for speed and freshness."),
+    ("📊", "Data-Driven Choices", "Real-time insights into your food system.")
+]
+
+for i, col in enumerate(feature_cols):
+    with col:
+        st.markdown(f"""
+        <div class="role-card">
+            <h4>{features[i][0]} {features[i][1]}</h4>
+            <p>{features[i][2]}</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+st.divider()
+
+# ----- FOOTER CTA -----
+st.markdown("""
+<div style="text-align:center; padding:2rem;">
+    <h2>Fresh food. Smarter routes. Better futures.</h2>
+    <p>Built as a Northeastern University CS3200 project.</p>
+</div>
+""", unsafe_allow_html=True)

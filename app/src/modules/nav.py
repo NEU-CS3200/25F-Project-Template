@@ -5,7 +5,9 @@
 import streamlit as st
 
 
+
 #### ------------------------ General ------------------------
+"""Home home page for all. Where you can pick each persona sidebar"""
 def HomeNav():
     st.sidebar.page_link("Home.py", label="Home", icon="🏠")
 
@@ -14,60 +16,78 @@ def AboutPageNav():
     st.sidebar.page_link("pages/30_About.py", label="About", icon="🧠")
 
 
-#### ------------------------ Examples for Role of pol_strat_advisor ------------------------
-def PolStratAdvHomeNav():
+#### ------------------------ Examples for Role of Customer ------------------------
+def CustomerHomeNav():
     st.sidebar.page_link(
-        "pages/00_Pol_Strat_Home.py", label="Political Strategist Home", icon="👤"
+        "pages/00_Customer_Home.py", label="Customer Home", icon="🏠"
     )
 
 
-def WorldBankVizNav():
+def MealPreferencesNav():
     st.sidebar.page_link(
-        "pages/01_World_Bank_Viz.py", label="World Bank Visualization", icon="🏦"
+        "pages/01_Meal_Preferences.py", label="Meal Preferences", icon="🥗"
     )
 
 
-def MapDemoNav():
-    st.sidebar.page_link("pages/02_Map_Demo.py", label="Map Demonstration", icon="🗺️")
+def MealPlanNav():
+    st.sidebar.page_link("pages/02_Meal_Plan.py", label="Meal Plan", icon="🗓️️")
+
+def CustomerChatNav():
+    st.sidebar.page_link("pages/03_Chat_Page.py", label="Chat Page", icon="💬️")
 
 
-## ------------------------ Examples for Role of usaid_worker ------------------------
+## ------------------------ Examples for Role of Farmer ------------------------
 
-def usaidWorkerHomeNav():
+def FarmerHomeNav():
     st.sidebar.page_link(
-      "pages/10_USAID_Worker_Home.py", label="USAID Worker Home", icon="🏠"
+      "pages/10_Farmer_Home.py", label="Your Home", icon="🏠"
     )
-
-def NgoDirectoryNav():
-    st.sidebar.page_link("pages/14_NGO_Directory.py", label="NGO Directory", icon="📁")
-
-def AddNgoNav():
-    st.sidebar.page_link("pages/15_Add_NGO.py", label="Add New NGO", icon="➕")
-
-def ApiTestNav():
-    st.sidebar.page_link("pages/12_API_Test.py", label="Test the API", icon="🛜")
-
-def PredictionNav():
+def ProduceEditNav():
     st.sidebar.page_link(
-        "pages/11_Prediction.py", label="Regression Prediction", icon="📈"
-    )
+        "pages/11_Produce_Edit.py", label="Produce Editor", icon="🧺")
 
-def ClassificationNav():
+def IngredientDirectoryNav():
+    st.sidebar.page_link("pages/14_Ingredient_Directory.py", label="Ingredient Directory", icon="📁")
+
+
+def IngredientPredictorNav():
+    st.sidebar.page_link("pages/12_Ingredient_Predict.py", label="Ingredient Predictor", icon="📊")
+
+
+## ------------------------ Examples for Role of Driver ------------------------
+
+def DriverHomeNav():
     st.sidebar.page_link(
-        "pages/13_Classification.py", label="Classification Demo", icon="🌺"
+      "pages/22_Driver_Home.py", label="Your Home", icon="🏠"
     )
+def AvailabilityCalendarNav():
+    st.sidebar.page_link(
+        "pages/23_Availability_Calendar.py", label="Availability Calendar", icon="🗓️")
 
+def RoutePlannerNav():
+    st.sidebar.page_link("pages/24_Route_Planner.py", label="Route Planner", icon="🧭")
 
-
+def DriverChatNav():
+    st.sidebar.page_link(
+        "pages/29_Driver_Chat.py", label="Driver Chat", icon="💬️"
+    )
 
 
 #### ------------------------ System Admin Role ------------------------
 def AdminPageNav():
-    st.sidebar.page_link("pages/20_Admin_Home.py", label="System Admin", icon="🖥️")
+    st.sidebar.page_link("pages/25_Admin_Home.py", label="System Admin", icon="🏠")
+def RecipeCreatorNav():
     st.sidebar.page_link(
-        "pages/21_ML_Model_Mgmt.py", label="ML Model Management", icon="🏢"
+        "pages/26_Recipe_Creator.py", label="Recipe Creator", icon="📖"
     )
-
+def CustomerAccountsNav():
+    st.sidebar.page_link(
+        "pages/27_Customer_Accounts.py", label="Customer Accounts", icon="👥"
+    )
+def CustomerChatsNav():
+    st.sidebar.page_link(
+        "pages/28_Admin_Chat.py", label="Respond to Chats", icon="💬️"
+    )
 
 # --------------------------------Links Function -----------------------------------------------
 def SideBarLinks(show_home=False):
@@ -76,7 +96,10 @@ def SideBarLinks(show_home=False):
     """
 
     # add a logo to the sidebar always
-    st.sidebar.image("assets/logo.png", width=150)
+    st.sidebar.image("assets/logo.png", width=300
+
+                     
+                     )
 
     # If there is no logged in user, redirect to the Home (Landing) page
     if "authenticated" not in st.session_state:
@@ -91,24 +114,32 @@ def SideBarLinks(show_home=False):
     if st.session_state["authenticated"]:
 
         # Show World Bank Link and Map Demo Link if the user is a political strategy advisor role.
-        if st.session_state["role"] == "pol_strat_advisor":
-            PolStratAdvHomeNav()
-            WorldBankVizNav()
-            MapDemoNav()
+        if st.session_state["role"] == "customer":
+            CustomerHomeNav()
+            MealPreferencesNav()
+            MealPlanNav()
+            CustomerChatNav()
 
         # If the user role is usaid worker, show the Api Testing page
-        if st.session_state["role"] == "usaid_worker":
-            usaidWorkerHomeNav()
-            NgoDirectoryNav()
-            AddNgoNav()
-            PredictionNav()
-            ApiTestNav()
-            ClassificationNav()
-            
+        if st.session_state["role"] == "farmer":
+            FarmerHomeNav()
+            ProduceEditNav()
+            IngredientDirectoryNav()
+            IngredientPredictorNav()
+
+        # If the user role is Delivery Driver, show the Api Testing page
+        if st.session_state["role"] == "driver":
+            DriverHomeNav()
+            AvailabilityCalendarNav()
+            RoutePlannerNav()
+            DriverChatNav()
 
         # If the user is an administrator, give them access to the administrator pages
         if st.session_state["role"] == "administrator":
             AdminPageNav()
+            RecipeCreatorNav()
+            CustomerAccountsNav()
+            CustomerChatsNav()
 
     # Always show the About page at the bottom of the list of links
     AboutPageNav()
@@ -117,5 +148,5 @@ def SideBarLinks(show_home=False):
         # Always show a logout button if there is a logged in user
         if st.sidebar.button("Logout"):
             del st.session_state["role"]
-            del st.session_state["authenticated"]
+            del st.session_state["authenticated"]   
             st.switch_page("Home.py")
