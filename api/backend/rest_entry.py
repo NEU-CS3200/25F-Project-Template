@@ -1,91 +1,52 @@
 from flask import Flask
-from dotenv import load_dotenv
-import os
-import logging
-from logging.handlers import RotatingFileHandler
 
 from backend.db_connection import db
-from backend.simple.simple_routes import simple_routes
-from backend.ngos.ngo_routes import ngos
+
+from backend.users.user_routes import users
+from backend.budgets.budget_routes import budgets
+from backend.transactions.transaction_routes import transactions
+from backend.savings.saving_routes import savings
+from backend.loans.loan_routes import loans
+from backend.investments.investment_routes import investments
+from backend.bills.bill_routes import bills
+from backend.subscriptions.subscription_routes import subscriptions
+from backend.insights.insight_routes import insights
+
+import os
+from dotenv import load_dotenv
 
 def create_app():
     app = Flask(__name__)
 
-    app.logger.setLevel(logging.DEBUG)
-    app.logger.info('API startup')
-
-    # Configure file logging if needed
-    #   Uncomment the code in the setup_logging function
-    # setup_logging(app) 
-
-    # Load environment variables
-    # This function reads all the values from inside
-    # the .env file (in the parent folder) so they
-    # are available in this file.  See the MySQL setup
-    # commands below to see how they're being used.
     load_dotenv()
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
-    # secret key that will be used for securely signing the session
-    # cookie and can be used for any other security related needs by
-    # extensions or your application
-    # app.config['SECRET_KEY'] = 'someCrazyS3cR3T!Key.!'
-    app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+    app.config['MYSQL_DATABASE_USER'] = os.getenv('DB_USER').strip()
+    app.config['MYSQL_DATABASE_PASSWORD'] = os.getenv('MYSQL_ROOT_PASSWORD').strip()
+    app.config['MYSQL_DATABASE_HOST'] = os.getenv('DB_HOST').strip()
+    app.config['MYSQL_DATABASE_PORT'] = int(os.getenv('DB_PORT').strip())
+    app.config['MYSQL_DATABASE_DB'] = os.getenv('DB_NAME').strip()
 
-    # # these are for the DB object to be able to connect to MySQL.
-    # app.config['MYSQL_DATABASE_USER'] = 'root'
-    app.config["MYSQL_DATABASE_USER"] = os.getenv("DB_USER").strip()
-    app.config["MYSQL_DATABASE_PASSWORD"] = os.getenv("MYSQL_ROOT_PASSWORD").strip()
-    app.config["MYSQL_DATABASE_HOST"] = os.getenv("DB_HOST").strip()
-    app.config["MYSQL_DATABASE_PORT"] = int(os.getenv("DB_PORT").strip())
-    app.config["MYSQL_DATABASE_DB"] = os.getenv(
-        "DB_NAME"
-    ).strip()  # Change this to your DB name
+    app.logger.info('current DB name = ' + os.getenv('DB_NAME').strip())
 
-    # Initialize the database object with the settings above.
-    app.logger.info("current_app(): starting the database connection")
     db.init_app(app)
 
-    # Register the routes from each Blueprint with the app object
-    # and give a url prefix to each
-    app.logger.info("create_app(): registering blueprints with Flask app object.")
-    app.register_blueprint(simple_routes)
-    app.register_blueprint(ngos, url_prefix="/ngo")
+    app.register_blueprint(users, url_prefix='/users')
+    app.register_blueprint(budgets, url_prefix='/budgets')
+    app.register_blueprint(transactions, url_prefix='/transactions')
+    app.register_blueprint(savings, url_prefix='/savings')
+    app.register_blueprint(loans, url_prefix='/loans')
+    app.register_blueprint(investments, url_prefix='/investments')
+    app.register_blueprint(bills, url_prefix='/bills')
+    app.register_blueprint(subscriptions, url_prefix='/subscriptions')
+    app.register_blueprint(insights, url_prefix='/insights')
 
-    # Don't forget to return the app object
+    @app.route('/')
+    def index():
+        return "Welcome to the Budget App API"
+
+    @app.route('/health')
+    def health():
+        return "Healthy"
+
     return app
-
-def setup_logging(app):
-    """
-    Configure logging for the Flask application in both files and console (Docker Desktop for this project)
-    
-    Args:
-        app: Flask application instance to configure logging for
-    """
-    # if not os.path.exists('logs'):
-    #     os.mkdir('logs')
-
-    ## Set up FILE HANDLER for all levels
-    # file_handler = RotatingFileHandler(
-    #     'logs/api.log',
-    #     maxBytes=10240,
-    #     backupCount=10
-    # )
-    # file_handler.setFormatter(logging.Formatter(
-    #     '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
-    # ))
-    
-    # Make sure we are capturing all levels of logging into the log files. 
-    # file_handler.setLevel(logging.DEBUG)  # Capture all levels in file
-    # app.logger.addHandler(file_handler)
-
-    # ## Set up CONSOLE HANDLER for all levels
-    # console_handler = logging.StreamHandler()
-    # console_handler.setFormatter(logging.Formatter(
-    #     '%(asctime)s %(levelname)s: %(message)s'
-    # ))
-    # Debug level capture makes sure that all log levels are captured
-    # console_handler.setLevel(logging.DEBUG)
-    # app.logger.addHandler(console_handler)
-    pass
-    
-    
