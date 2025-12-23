@@ -1,79 +1,143 @@
-##################################################
-# This is the main/entry-point file for the 
-# sample application for your project
-##################################################
-
-# Set up basic logging infrastructure
 import logging
-logging.basicConfig(format='%(filename)s:%(lineno)s:%(levelname)s -- %(message)s', level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-# import the main streamlit library as well
-# as SideBarLinks function from src/modules folder
 import streamlit as st
 from modules.nav import SideBarLinks
 
-# streamlit supports reguarl and wide layout (how the controls
-# are organized/displayed on the screen).
-st.set_page_config(layout = 'wide')
+# Logging
+logging.basicConfig(format='%(filename)s:%(lineno)s:%(levelname)s -- %(message)s', level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-# If a user is at this page, we assume they are not 
-# authenticated.  So we change the 'authenticated' value
-# in the streamlit session_state to false. 
+# Page config
+st.set_page_config(layout='wide')
 st.session_state['authenticated'] = False
 
-# Use the SideBarLinks function from src/modules/nav.py to control
-# the links displayed on the left-side panel. 
-# IMPORTANT: ensure src/.streamlit/config.toml sets
-# showSidebarNavigation = false in the [client] section
+# Sidebar
 SideBarLinks(show_home=True)
 
 # ***************************************************
-#    The major content of this page
+# CSS Styling
+# ***************************************************
+st.markdown("""
+    <style>
+    /* Center everything */
+    .block-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        max-width: 100%;
+    }
+    
+    /* Swap text styling */
+    .swap-text {
+        color: #328E6E;
+        font-size: 48px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 40px;
+        margin-top: 20px;
+        white-space: nowrap;
+    }
+    
+    /* Buttons styling */
+    div.stButton > button {
+        background-color: #328E6E;
+        color: #E1EEBC;
+        height: 4em;
+        width: 100%;
+        font-size: 24px;
+        font-weight: bold;
+        border-radius: 10px;
+    }
+    
+    div.stButton > button:hover {
+        background-color: #2a7359;
+        border-color: #328E6E;
+    }
+    
+    /* Make all columns flex properly */
+    [data-testid="column"] {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    /* Emoji fixed width */
+    .emoji-container {
+        width: 80px;
+        text-align: right;
+        padding-right: 15px;
+    }
+    
+    /* Logo container */
+    .logo-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# ***************************************************
+# Main content
 # ***************************************************
 
-# set the title of the page and provide a simple prompt. 
-logger.info("Loading the Home page of the app")
-st.title('CS 3200 Project Template')
-st.write('\n\n')
-# st.write('### Overview:')
-# st.write('\n')
-st.write('#### HI! As which user would you like to log in?')
+# Logo centered at top
+st.markdown('<div class="logo-container">', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
 
-# For each of the user personas for which we are implementing
-# functionality, we put a button on the screen that the user 
-# can click to MIMIC logging in as that mock user. 
+# Swap into Style text
+st.markdown('<div class="swap-text">Swap into style and swap roles</div>', unsafe_allow_html=True)
 
-if st.button("Act as John, a Political Strategy Advisor", 
-            type = 'primary', 
-            use_container_width=True):
-    # when user clicks the button, they are now considered authenticated
-    st.session_state['authenticated'] = True
-    # we set the role of the current user
-    st.session_state['role'] = 'pol_strat_advisor'
-    # we add the first name of the user (so it can be displayed on 
-    # subsequent pages). 
-    st.session_state['first_name'] = 'John'
-    # finally, we ask streamlit to switch to another page, in this case, the 
-    # landing page for this particular user type
-    logger.info("Logging in as Political Strategy Advisor Persona")
-    st.switch_page('pages/00_Pol_Strat_Home.py')
+# Admin emoji + button
+col1, col2 = st.columns([80, 1000], gap="small")
+with col1:
+    st.markdown('<div class="emoji-container"><div style="font-size: 60px;">🧑🏻‍💼</div></div>', unsafe_allow_html=True)
+with col2:
+    if st.button("Admin", key="Admin", use_container_width=True):
+        st.session_state['authenticated'] = True
+        st.session_state['role'] = 'Admin: Aisha'
+        st.session_state['first_name'] = 'Aisha'
+        logger.info("Logging in as Admin Persona")
+        st.switch_page('pages/05_Admin_Home.py')
 
-if st.button('Act as Mohammad, an USAID worker', 
-            type = 'primary', 
-            use_container_width=True):
-    st.session_state['authenticated'] = True
-    st.session_state['role'] = 'usaid_worker'
-    st.session_state['first_name'] = 'Mohammad'
-    st.switch_page('pages/10_USAID_Worker_Home.py')
+st.markdown('<br>', unsafe_allow_html=True)
 
-if st.button('Act as System Administrator', 
-            type = 'primary', 
-            use_container_width=True):
-    st.session_state['authenticated'] = True
-    st.session_state['role'] = 'administrator'
-    st.session_state['first_name'] = 'SysAdmin'
-    st.switch_page('pages/20_Admin_Home.py')
+# Data Analyst emoji + button
+col1, col2 = st.columns([80, 1000], gap="small")
+with col1:
+    st.markdown('<div class="emoji-container"><div style="font-size: 60px;">👩🏽‍💻</div></div>', unsafe_allow_html=True)
+with col2:
+    if st.button("Data Analyst", key="Data Analyst", use_container_width=True):
+        st.session_state['authenticated'] = True
+        st.session_state['role'] = 'Data Analyst: Blair'
+        st.session_state['first_name'] = 'Blair'
+        logger.info("Logging in as Data Analyst Persona")
+        st.switch_page('pages/00_DADash.py')
 
+st.markdown('<br>', unsafe_allow_html=True)
 
+# Swapper emoji + button
+col1, col2 = st.columns([80, 1000], gap="small")
+with col1:
+    st.markdown('<div class="emoji-container"><div style="font-size: 60px;">🙋🏼‍♂️</div></div>', unsafe_allow_html=True)
+with col2:
+    if st.button("Swapper", key="Swapper", use_container_width=True):
+        st.session_state['authenticated'] = True
+        st.session_state['role'] = 'Swapper: Andrea'
+        st.session_state['first_name'] = 'Andrea'
+        logger.info("Logging in as Swapper Persona")
+        st.switch_page('pages/00_SwapperDash.py')
 
+st.markdown('<br>', unsafe_allow_html=True)
+
+# Taker emoji + button
+col1, col2 = st.columns([80, 1000], gap="small")
+with col1:
+    st.markdown('<div class="emoji-container"><div style="font-size: 60px;">🙋🏼‍♀️</div></div>', unsafe_allow_html=True)
+with col2:
+    if st.button("Taker", key="Taker", use_container_width=True):
+        st.session_state['authenticated'] = True
+        st.session_state['role'] = 'Taker: Alice'
+        st.session_state['first_name'] = 'Alice'
+        logger.info("Logging in as Taker Persona")
+        st.switch_page('pages/00_TakerDash.py')
