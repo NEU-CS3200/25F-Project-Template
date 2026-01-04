@@ -1,0 +1,27 @@
+Quick Reference: Which API Endpoint for Which Page?
+
+UI interface link : http://localhost:8501/
+
+Admin Pages:
+
+01_Manage_Users.py → http://api:4000/admin/users
+02_Verifications.py → http://api:4000/admin/pending-verifications
+03_Reports.py → http://api:4000/reports
+
+Player Pages:
+
+11_Player_Stats.py → http://api:4000/players/1/stats
+12_Upload_Videos.py → POST http://api:4000/players/1/videos
+13_View_Feedback.py → http://api:4000/players/1/feedback
+
+Analyst Pages:
+
+21_Analytics_Dashboard.py → http://api:4000/analytics/dashboards
+22_Custom_Metrics.py → http://api:4000/analytics/metrics
+23_Export_Data.py → POST http://api:4000/analytics/datasets/export
+
+Scout Pages:
+
+31_Search_Players.py → http://api:4000/players/stats/aggregate
+32_Live_Scout.py → http://api:4000/scouts/1/game_history
+33_Scout_Schedule.py → http://api:4000/players/1/schedule
