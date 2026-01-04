@@ -62,11 +62,12 @@ def ClassificationNav():
 
 
 #### ------------------------ System Admin Role ------------------------
+# -------------------- System Admin Role --------------------
 def AdminPageNav():
     st.sidebar.page_link("pages/20_Admin_Home.py", label="System Admin", icon="🖥️")
-    st.sidebar.page_link(
-        "pages/21_ML_Model_Mgmt.py", label="ML Model Management", icon="🏢"
-    )
+    st.sidebar.page_link("pages/21_Admin_Applications.py", label="Applications", icon="✅")
+    st.sidebar.page_link("pages/22_Admin_Reports.py", label="Reports", icon="🚩")
+    st.sidebar.page_link("pages/23_Admin_System_Stats.py", label="System Stats", icon="📊")
 
 
 # --------------------------------Links Function -----------------------------------------------

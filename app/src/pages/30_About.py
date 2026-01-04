@@ -8,10 +8,9 @@ st.write("# About this App")
 
 st.markdown(
     """
-    This is a demo app for Data and Software in International Government and Politics Dialogue 2025 Project Course.  
+    This is a demo app for CS3200: Database Systems Fall 2025.
 
-    The goal of this demo is to provide information on the tech stack 
-    being used as well as demo some of the features of the various platforms. 
+    The goal of this app is to connect current Northeastern students to Alumni!
 
     Stay tuned for more information and features to come!
     """
