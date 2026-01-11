@@ -1,0 +1,31 @@
+services:
+  app:
+    build: ./app
+    container_name: fithub-app
+    volumes:
+      - ./app/src:/appcode/src
+    ports:
+      - "8501:8501"
+
+  api:
+    build: ./api
+    container_name: fithub-api
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./api:/apicode
+
+  db:
+    image: mysql:8.0
+    container_name: fithub-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: fithub
+    volumes:
+      - ./database-files:/docker-entrypoint-initdb.d/:ro
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3200:3306"
+
+volumes:
+  mysql_data:
