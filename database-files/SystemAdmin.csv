@@ -1,0 +1,41 @@
+adminID,firstName,lastName,email,adminLvl,acctStatus,dept
+1,Berenice,Miettinen,bmiettinen0@marketwatch.com,1,inactive,Finance
+2,Irwinn,Hinsch,ihinsch1@businesswire.com,2,inactive,Marketing
+3,Penni,Seyffert,pseyffert2@sfgate.com,5,pending,Finance
+4,Jackie,Miroy,jmiroy3@cbc.ca,1,inactive,Sales
+5,Morgun,Leborgne,mleborgne4@twitpic.com,1,active,Human Resources
+6,Englebert,Lapley,elapley5@deviantart.com,1,active,Marketing
+7,Marie-jeanne,Lorey,mlorey6@virginia.edu,3,pending,Finance
+8,Aggy,Ripsher,aripsher7@jigsy.com,4,pending,Human Resources
+9,Odelia,Arkley,oarkley8@state.gov,5,pending,Finance
+10,Faustina,Surgood,fsurgood9@google.com.br,3,inactive,Marketing
+11,Hatti,Lunam,hlunama@jalbum.net,3,pending,Human Resources
+12,Delcine,Castiglione,dcastiglioneb@jugem.jp,1,inactive,Engineering
+13,Harland,Pithcock,hpithcockc@quantcast.com,4,inactive,Engineering
+14,Fowler,De Goey,fdegoeyd@google.com,4,pending,Finance
+15,Elwin,Prendeville,eprendevillee@linkedin.com,4,pending,Marketing
+16,Leon,Carlill,lcarlillf@tuttocitta.it,4,pending,Marketing
+17,Veronika,Wike,vwikeg@g.co,4,pending,Human Resources
+18,Sallee,Woolacott,swoolacotth@xing.com,5,active,Sales
+19,Loni,O'Grady,logradyi@nsw.gov.au,3,inactive,Engineering
+20,Rycca,Ferreira,rferreiraj@amazonaws.com,2,pending,Finance
+21,Zonda,Antyukhin,zantyukhink@marketwatch.com,5,inactive,Sales
+22,Gothart,Bruneton,gbrunetonl@moonfruit.com,4,pending,Human Resources
+23,Nikolaus,Lowen,nlowenm@blog.com,4,pending,Finance
+24,Gail,Yukhnin,gyukhninn@slideshare.net,4,inactive,Sales
+25,Morey,Enrdigo,menrdigoo@163.com,4,pending,Sales
+26,Marie,Nicholes,mnicholesp@so-net.ne.jp,3,inactive,Marketing
+27,Brooks,Bruna,bbrunaq@sogou.com,3,pending,Engineering
+28,Shirlene,Georgievski,sgeorgievskir@blog.com,3,inactive,Sales
+29,Alysia,Srutton,asruttons@imageshack.us,3,pending,Sales
+30,Ginelle,Conti,gcontit@over-blog.com,4,active,Marketing
+31,Sidnee,Malone,smaloneu@edublogs.org,4,pending,Human Resources
+32,Alanson,Szymanski,aszymanskiv@oracle.com,3,inactive,Finance
+33,Sharai,Howden,showdenw@vimeo.com,2,inactive,Engineering
+34,Terrel,De Angelo,tdeangelox@ed.gov,1,pending,Marketing
+35,Damiano,Antonsen,dantonseny@live.com,2,pending,Sales
+36,Kerwinn,Roistone,kroistonez@wikia.com,3,active,Sales
+37,Amabelle,Carling,acarling10@csmonitor.com,1,pending,Human Resources
+38,Carena,Pinnell,cpinnell11@unicef.org,2,pending,Finance
+39,Daryn,Espadate,despadate12@army.mil,3,inactive,Sales
+40,Verena,Featherstonhaugh,vfeatherstonhaugh13@elegantthemes.com,3,pending,Finance

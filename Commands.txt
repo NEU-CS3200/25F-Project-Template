@@ -1,0 +1,11 @@
+Player Highlights Proof
+docker exec -it mysql_db mysql -uroot -pcourtvision_pass_2024 courtvision -e "SELECT * FROM Footage WHERE playerID = 2 ORDER BY footageID DESC LIMIT 5;"
+
+Player Stats proof
+docker exec -it mysql_db mysql -uroot -pcourtvision_pass_2024 courtvision -e "SELECT * FROM Game_Stats WHERE playerID = 2 ORDER BY gameID DESC LIMIT 5;"
+
+Game Scout Live Game Scout
+docker exec -it mysql_db mysql -uroot -pcourtvision_pass_2024 courtvision -e "SELECT * FROM Annotations ORDER BY annotationID DESC LIMIT 5;"
+
+Game Scout Sceudaling
+docker exec -it mysql_db mysql -uroot -pcourtvision_pass_2024 courtvision -e "SELECT * FROM Scout_Activity ORDER BY scoutID, gameID DESC;"
