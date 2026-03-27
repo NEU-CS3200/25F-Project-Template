@@ -1,8 +1,10 @@
 # Fall 2025 CS 3200 Project Template
 
-This is a template repo for Dr. Fontenot's Fall 2025 CS 3200 Course Project. 
+This is the repo for Fitflow, created by Ranya Jain, Laila Alston, Malk Abou Hadiba and Alex Quintyne, as part of Dr. Fontenot's Fall 2025 CS 3200 Course Project. 
 
 It includes most of the infrastructure setup (containers), sample databases, and example UI pages. Explore it fully and ask questions!
+
+## Link to Presentation Video: https://youtu.be/kRvscEVxQec
 
 ## Prerequisites
 
@@ -128,6 +130,6 @@ _Note_: This project only contains the infrastructure for a hypothetical ML mode
    - Develop and test this pure Python script first in the `ml-src` folder.
    - You may or may not need to include data cleaning, though.
 1. Review the `api/backend/ml_models` module. In this folder,
-   - We've put a sample (read _fake_) ML model in the `model01.py` file. The `predict` function will be called by the Flask REST API to perform '_real-time_' prediction based on model parameter values that are stored in the database. **Important**: you would never want to hard code the model parameter weights directly in the prediction function.
+   - We've put a sample (read _fake_) ML model in the `model01.py` file. The `predict` function will be called by the Flask REST API to perform '_real-time_' prediction based on model parameter values that are stored in the database. **Important**: you would never want to Hard code the model parameter weights directly in the prediction function.
 1. The prediction route for the REST API is in `api/backend/customers/customer_routes.py`. Basically, it accepts two URL parameters and passes them to the `prediction` function in the `ml_models` module. The `prediction` route/function packages up the value(s) it receives from the model's `predict` function and send its back to Streamlit as JSON.
 1. Back in streamlit, check out `app/src/pages/11_Prediction.py`. Here, I create two numeric input fields. When the button is pressed, it makes a request to the REST API URL `/c/prediction/.../...` function and passes the values from the two inputs as URL parameters. It gets back the results from the route and displays them. Nothing fancy here.
