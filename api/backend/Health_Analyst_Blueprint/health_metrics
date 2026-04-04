@@ -1,0 +1,114 @@
+from flask import Blueprint, jsonify, request
+from backend.db_connection import db
+from mysql.connector import Error
+from flask import current_app
+
+
+health_metrics = Blueprint('health_metrics', __name__)
+@health_metrics.route("/health_metrics", methods=["GET"])
+def get_most_recent_health_metrics():
+    try:
+        query = """
+            SELECT
+                hm.client_id,
+                hm.record_date,
+                hm.weight_kg,
+                hm.body_fat_percentage,
+                hm.heart_rate
+            FROM Health_Metrics hm
+            WHERE hm.record_date = (
+                SELECT MAX(record_date)
+                FROM Health_Metrics
+                WHERE client_id = hm.client_id
+        );
+        """
+        current_app.logger.debug(f'Executing query: {query}')
+        cursor.execute(query)
+        metrics = cursor.fetchall()
+        cursor.close()
+
+        current_app.logger.info(f'Successfully retrieved {len(metrics)} health metric records')
+        return jsonify(metrics), 200
+    except Error as e:
+        current_app.logger.error(f'Database error in get_most_recent_health_metric: {str(e)}')
+        return jsonify({"error": str(e)}), 500
+
+
+@health_metrics.route("/health_metrics", methods=["POST"])
+def add_health_metric():
+    try:
+        data = request.get_json()
+        required_fields = [
+            'client_id',
+            'record_date',
+            'weight_kg',
+            'body_fat_percentage',
+            'heart-rate'
+        ]
+
+        for field in allowed_fields:
+            if field not in data:
+                return jsonify({"error": f"Missing required field: {field}"})
+            
+        query = """
+            INSERT INTO Health_Metrics
+                (client_id, record_date, weight_kg, body_fat_percentage, heart_rate)
+            VALUES (%s, %s, %s, %s, %s);
+        """
+        params = (
+            data['client_id'],
+            data['record_date'],
+            data['weight_kg'],
+            data['body_fat_percentage'],
+            data['heart_rate']
+        )
+
+        current_app.logger.debug(f'Executing query: {query}')
+        cursor.execute(query, params)
+        cursor.close()
+
+        current_app.logger.info("New metric successfully created")
+        return jsonify({"message: Health metric record added successfully"}), 201
+    except Error as e:
+        current_app.logger.error(f'Database error in add_health_metric: {str(e)}')
+        return jsonify({"error": str(e)}), 500
+
+
+@health_metrics.route("/health_metrics", methods=["PUT"])
+def update_health_metric(metric_id):
+    try:
+        data = request.get_json()
+
+        fields = [
+            'record_date',
+            'weight_kg',
+            'body_fat_percentage',
+            'heart_rate'
+        ]
+
+        updates = []
+        params = []
+
+        for f in fields:
+            if f in data:
+                updates.append(f"{f} = %s")
+                params.append(data[f])
+        if not updates:
+            return jsonify({"error": "No valid fields provided"}, 400)
+        params.append(metric_id)
+
+        query = f"""
+            UPDATE Health_Metrics
+            SET{", ".join(updates)}
+            WHERE metric_id = %s;
+        """
+        
+        current_app.logger.debug(f'Executing query: {query}')
+        cursor.execute(query, params)
+        cursor.close()
+
+        current_app.logger.info("Health metric successfully updated")
+        return jsonify({"message: Health metric record updated successfully"}), 200
+    except Error as e:
+        current_app.logger.error(f'Database error in update_health_metric: {str(e)}')
+        return jsonify({"error": str(e)}), 500

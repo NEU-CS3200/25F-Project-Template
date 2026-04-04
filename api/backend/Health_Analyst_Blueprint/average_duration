@@ -1,0 +1,48 @@
+from flask import Blueprint, jsonify, request
+from backend.db_connection import db
+from mysql.connector import Error
+from flask import current_app
+
+# Create a Blueprint for average duration route
+average_duration = Blueprint("average_duration", __name__)
+
+@average_duration.route("/client_workout_log/avg_duration", methods=["GET"])
+def get_average_workout_duration():
+    # Get query parameters for filtering
+    try:
+        year = request.args.get("year")
+        week = request.args.get("week")
+
+        # Prepare the Base query
+        query = """
+            SELECT
+                c.client_id,
+                YEAR(cwl.date) AS year,
+                WEEK(cwl.date, 1) AS week,
+                AVG(cwl.duration_minutes) AS avg_duration
+            FROM Client c 
+            JOIN Client_Workout_Log cwl ON c.client_id = cwl.client_id
+            WHERE cwl.completion_status = 'completed'
+        """
+        params = []
+        if year:
+            query += " AND YEAR(cwl.date) = %s"
+            params.append(year)
+        if week:
+            query += " AND WEEK(cwl.date, 1) = %s"
+            params.append(week)
+        query += """
+            GROUP BY c.client_id, YEAR(cwl.date), WEEK(cwl.date, 1)
+            ORDER BY c.client_id, year, week;
+        """
+    
+        current_app.logger.debug(f'Executing query: {query}')
+        cursor.execute(query, params)
+        duration = cursor.fetchall()
+        cursor.close()
+
+        current_app.logger.info(f'Successfully retrieved {len(ngos)} NGOs')
+        return jsonify(duration), 200
+    except Error as e:
+        current_app.logger.error(f'Database error in get_average_workout_duration: {str(e)}')
+        return jsonify({"error": str(e)}), 500
